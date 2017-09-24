@@ -4,9 +4,12 @@
 #include <time.h>
 
 #define WORLD_SIZE_X 3000
-#define WORLD_SIZE_Y 1000
+#define WORLD_SIZE_Y 3000
 #define CELLCREATURES_COUNT 50
-#define WALLS_THICKNESS 200
+#define WALLS_THICKNESS 50
+#define GRID_SCALE 100
+
+#define BOTS_COUNT 30
 
 class World
 {
@@ -15,13 +18,6 @@ public:
 	World()
 		: m_dTime(1.0f)
 	{
-		for (int i = 0; i < 20; i++)
-		{
-			Bot* pBot = new Bot(Vector2D((0.5 + frand(-0.5, 0.5)) * WORLD_SIZE_X, WORLD_SIZE_Y / 2));
-			m_Bots.push_back(pBot);
-			m_PhysObjs.push_back(pBot);
-		}
-
 		PhysObj* pPhys = new PhysObj(Vector2D(WORLD_SIZE_X / 2, 0), WORLD_SIZE_X, WALLS_THICKNESS);
 		pPhys->SetStatic();
 		m_PhysObjs.push_back(pPhys);
@@ -37,6 +33,24 @@ public:
 		pPhys = new PhysObj(Vector2D(WORLD_SIZE_X, WORLD_SIZE_Y / 2), WALLS_THICKNESS, WORLD_SIZE_Y);
 		pPhys->SetStatic();
 		m_PhysObjs.push_back(pPhys);
+
+		LoadRoom();
+	}
+
+	void LoadRoom()
+	{
+		for (int i = 0; i < 40; i++)
+		{
+			PhysObj* pPhys = new PhysObj(
+				Vector2D(
+				round(frand(0, WORLD_SIZE_X) / GRID_SCALE) * GRID_SCALE,
+				round(frand(0, WORLD_SIZE_Y) / GRID_SCALE) * GRID_SCALE),
+				round(frand(50, 500) / GRID_SCALE) * GRID_SCALE,
+				round(frand(50, 500) / GRID_SCALE) * GRID_SCALE);
+
+			pPhys->SetStatic();
+			m_PhysObjs.push_back(pPhys);
+		}
 	}
 
 	// Size
@@ -67,8 +81,12 @@ public:
 
 	void Draw(const Camera& camera);
 
+	void AddBot();
+	void AddBot(Bot* pBot1, Bot* pBot2);
 	void Step();
+
 	bool CheckPointForSolid(const Vector2D& point, bool onlyStatic = true);
+	bool CheckLineForCollision(const Vector2D& startpos, const Vector2D& endpos, bool onlyStatic = true);
 	const std::vector<Bot*>& GetBots() { return m_Bots; }
 	const std::vector<PhysObj*>& GetDangers() { return m_Dangers; }
 

@@ -34,7 +34,7 @@ void run(GLFWwindow* pWindow)
 	g_Camera.widht = width;
 	
 	// clearing background and filling with color
-	glClearColor(0, 0, 0, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -72,6 +72,8 @@ void run(GLFWwindow* pWindow)
 	// Drawing Info
 	if (g_pBot)
 	{
+		DrawOutlineCircle(g_pBot->GetPosition().x, g_pBot->GetPosition().y, 40, RGBColor(255, 255, 255), g_Camera);
+
 		int panelW = 300;
 		int panelPadding = 20;
 		DrawFilledRect(0, 0, panelW, height, RGBColor(110, 130, 150));

@@ -85,23 +85,26 @@ static void DrawFilledCircle(int x, int y, float rad, RGBColor color, Camera cam
 	glEnd();
 }
 
-//
-//static void DrawFilledCircle(int x, int y, float rad, RGBColor color, Camera camera)
-//{
-//	glBegin(GL_LINES);
-//	glColor4f(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
-//	rad *= camera.zoom;
-//	Vector2D point = (Vector2D(x, y) - camera.pos) * camera.zoom;
-//
-//	for (float ang = 0.0f; ang < M_2PI; ang += M_2PI / 20.0f)
-//	{
-//		float x1 = point.x + sin(ang) * rad;
-//		float y1 = point.y + cos(ang) * rad;
-//		glVertex2f(x1, y1);
-//	}
-//
-//	glEnd();
-//}
+
+static void DrawOutlineCircle(int x, int y, float rad, RGBColor color, Camera camera)
+{
+	glBegin(GL_LINES);
+	glColor4f(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
+	rad *= camera.zoom;
+	Vector2D point = (Vector2D(x, y) - camera.pos) * camera.zoom;
+
+	for (float ang = 0.0f; ang < M_2PI; ang += M_2PI / 20.0f)
+	{
+		float x1 = point.x + sin(ang) * rad;
+		float y1 = point.y + cos(ang) * rad;
+		float x2 = point.x + sin(ang + M_2PI / 20.0f) * rad;
+		float y2 = point.y + cos(ang + M_2PI / 20.0f) * rad;
+		glVertex2f(x1, y1);
+		glVertex2f(x2, y2);
+	}
+
+	glEnd();
+}
 
 static void DrawFilledRect(int x, int y, float w, float h, RGBColor color)
 {
