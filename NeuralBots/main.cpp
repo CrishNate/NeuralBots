@@ -45,18 +45,7 @@ void run(GLFWwindow* pWindow)
 	glLineWidth(8);
 	glColor3f(1.0f, 0.0f, 0.0f);
 
-	//if (g_SelectedCreature)
-	//{
-	//	const std::vector<CellCreature*>& ccreatures = g_pMainWorld->GetCellCreatures();
-	//	if (std::find(ccreatures.begin(), ccreatures.end(), g_SelectedCreature) == ccreatures.end())
-	//		g_SelectedCreature = NULL;
-	//}
-
-	//if (g_SelectedCreature)
-	//{
-	//	DrawFilledCircle(g_SelectedCreature->GetPosition().x, g_SelectedCreature->GetPosition().y, g_SelectedCreature->GetRadius() + 20, RGBColor(0, 0, 0), g_Camera);
-	//}
-
+	DrawFilledRect(0, 0, WORLD_SIZE_X, WORLD_SIZE_Y, RGBColor(50, 50, 50), g_Camera);
 	g_pMainWorld->Draw(g_Camera);
 
 	// running
@@ -76,14 +65,29 @@ void run(GLFWwindow* pWindow)
 
 		int panelW = 300;
 		int panelPadding = 20;
+		int panelScale = 20;
+
 		DrawFilledRect(0, 0, panelW, height, RGBColor(110, 130, 150));
-		DrawFilledRect(
-			panelPadding,
-			panelPadding,
-			panelW - panelPadding * 2,
-			panelW - panelPadding * 2,
-			RGBColor(55, 65, 75)
-			);
+
+		const std::vector<Bot*>& bots = g_pMainWorld->GetSavedBots();
+		const std::vector<Bot*>& abots = g_pMainWorld->GetBots();
+
+		for (int i = 0; i < bots.size(); i++)
+		{
+			Bot* pBot = bots[i];
+
+			DrawFilledRect(width - panelW, i * (panelScale + 1), panelW, panelScale, RGBColor(150, 150, 150));
+			DrawFilledRect(width - panelW + 1, i * (panelScale + 1) + 1, panelScale - 2, panelScale - 2, pBot->GetColor());
+			float x = width - panelW + 1 + panelScale;
+			float y = i * (panelScale + 1) + 1;
+
+			DrawFilledRect(x, y, pBot->GetBrain()->GetFitness() * 5, panelScale - 2, RGBColor(255, 255, 255));
+
+			Vector2D p = CameraToWorld(x, y, g_Camera);
+			for (int j = 0; j < abots.size(); j++)
+				if (abots[j] == pBot)
+					DrawLineThink(pBot->GetPosition().x, pBot->GetPosition().y, p.x, p.y, 1, pBot->GetColor(), g_Camera);
+		}
 
 		// Drawing brain
 		NeuralNetwork* pBrain = g_pBot->GetBrain();

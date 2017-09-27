@@ -34,6 +34,14 @@ struct Camera
 };
 
 
+static Vector2D CameraToWorld(float x, float y, const Camera& camera)
+{
+	x = camera.pos.x + x / camera.zoom;
+	y = camera.pos.y + y / camera.zoom;
+
+	return Vector2D(x, y);
+}
+
 static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, RGBColor color, const Camera& camera)
 {
 	x1 = (x1 - camera.pos.x) * camera.zoom;
@@ -52,15 +60,15 @@ static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float
 }
 
 
-static void DrawFilledCircle(int x, int y, float rad, RGBColor color)
+static void DrawFilledCircle(int x, int y, float rad, RGBColor color, float sides = 20.0f)
 {
 	glBegin(GL_TRIANGLE_FAN);
 	glColor4f(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
 
-	for (float ang = 0.0f; ang < 360.0f; ang += 10)
+	for (float ang = 0.0f; ang < M_2PI; ang += M_2PI / sides)
 	{
-		float x1 = static_cast <float> (x)+sin(ang * M_PI / 180) * rad;
-		float y1 = static_cast <float> (y)+cos(ang * M_PI / 180) * rad;
+		float x1 = static_cast <float> (x)+sin(ang) * rad;
+		float y1 = static_cast <float> (y)+cos(ang) * rad;
 		glVertex2f(x1, y1);
 	}
 
@@ -68,14 +76,14 @@ static void DrawFilledCircle(int x, int y, float rad, RGBColor color)
 }
 
 
-static void DrawFilledCircle(int x, int y, float rad, RGBColor color, Camera camera)
+static void DrawFilledCircle(int x, int y, float rad, RGBColor color, Camera camera, float sides = 20.0f)
 {
 	glBegin(GL_TRIANGLE_FAN);
 	glColor4f(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
 	rad *= camera.zoom;
 	Vector2D point = (Vector2D(x, y) - camera.pos) * camera.zoom;
 
-	for (float ang = 0.0f; ang < M_2PI; ang += M_2PI / 20.0f)
+	for (float ang = 0.0f; ang < M_2PI; ang += M_2PI / sides)
 	{
 		float x1 = point.x+sin(ang) * rad;
 		float y1 = point.y+cos(ang) * rad;
@@ -86,25 +94,52 @@ static void DrawFilledCircle(int x, int y, float rad, RGBColor color, Camera cam
 }
 
 
-static void DrawOutlineCircle(int x, int y, float rad, RGBColor color, Camera camera)
+static void DrawOutlineCircle(int x, int y, float rad, RGBColor color, Camera camera, float sides = 20.0f)
 {
+	glLineWidth(1.0f);
 	glBegin(GL_LINES);
 	glColor4f(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
 	rad *= camera.zoom;
 	Vector2D point = (Vector2D(x, y) - camera.pos) * camera.zoom;
 
-	for (float ang = 0.0f; ang < M_2PI; ang += M_2PI / 20.0f)
+	for (float ang = 0.0f; ang < M_2PI; ang += M_2PI / sides)
 	{
 		float x1 = point.x + sin(ang) * rad;
 		float y1 = point.y + cos(ang) * rad;
-		float x2 = point.x + sin(ang + M_2PI / 20.0f) * rad;
-		float y2 = point.y + cos(ang + M_2PI / 20.0f) * rad;
+		float x2 = point.x + sin(ang + M_2PI / sides) * rad;
+		float y2 = point.y + cos(ang + M_2PI / sides) * rad;
 		glVertex2f(x1, y1);
 		glVertex2f(x2, y2);
 	}
 
 	glEnd();
 }
+
+
+static void DrawOutlinePartcircle(int x, int y, float rad, float radian, float ang, float width, RGBColor color, Camera camera, float sides = 10.0f)
+{
+	glLineWidth(width);
+	glBegin(GL_LINES);
+	glColor4f(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
+	rad *= camera.zoom;
+	Vector2D point = (Vector2D(x, y) - camera.pos) * camera.zoom;
+
+	for (float a = -radian; a < radian; a += (radian * 2) / sides)
+	{
+		float x1 = sin(a) * rad;
+		float y1 = cos(a) * rad;
+		float x2 = sin(a + (radian * 2) / sides) * rad;
+		float y2 = cos(a + (radian * 2) / sides) * rad;
+
+		Vector2D p1 = Vector2D(x1, y1).GetRotated(ang - M_PI2) + point;
+		Vector2D p2 = Vector2D(x2, y2).GetRotated(ang - M_PI2) + point;
+		glVertex2f(p1.x, p1.y);
+		glVertex2f(p2.x, p2.y);
+	}
+
+	glEnd();
+}
+
 
 static void DrawFilledRect(int x, int y, float w, float h, RGBColor color)
 {

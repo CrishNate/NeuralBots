@@ -31,7 +31,7 @@ public:
 		m_Color = HSLToRGB(hsl);
 
 		// creating brain
-		int inputNeuronsCount = 9;
+		int inputNeuronsCount = 10;
 		int outputNeuronsCount = 5;
 
 		std::vector<int> layers = { inputNeuronsCount, 12, outputNeuronsCount };
@@ -57,7 +57,8 @@ public:
 
 		std::vector<int> layers = { inputNeuronsCount, 12, outputNeuronsCount };
 		m_pBrain = new NeuralNetwork(pBot1->GetBrain());
-		m_pBrain->Mutate();
+		m_pBrain->Reproduce(pBot1->GetBrain(), pBot2->GetBrain());
+		m_pBrain->SetGeneration(m_pBrain->GetGeneration() + 1);
 	}
 
 
@@ -75,7 +76,7 @@ public:
 
 private:
 	
-	float GetAngleOffsetToNearestEnemy(World* pWorld, int& side);
+	float GetAngleOffsetToNearestEnemy(World* pWorld, int& side, int& shoot);
 	float GetAngleOffsetToNearestDanger(World* pWorld, int& side);
 
 	// fields

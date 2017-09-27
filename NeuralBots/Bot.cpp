@@ -15,7 +15,8 @@ void Bot::Step(World* pWorld, float dTime)
 
 	int sideE = 0;
 	int	sideD = 0;
-	GetAngleOffsetToNearestEnemy(pWorld, sideE);
+	int shoot = 0;
+	GetAngleOffsetToNearestEnemy(pWorld, sideE, shoot);
 	GetAngleOffsetToNearestDanger(pWorld, sideD);
 
 	int hitR = pWorld->CheckPointForSolid(m_Position + Vector2D(m_Width / 2 + 2, 0)) ? 1 : 0;
@@ -25,6 +26,7 @@ void Bot::Step(World* pWorld, float dTime)
 	inputs.push_back(sideD);
 	inputs.push_back(hitR);
 	inputs.push_back(hitL);
+	inputs.push_back(shoot);
 
 	std::vector<float> outputs = m_pBrain->Run(inputs);
 
@@ -49,7 +51,7 @@ void Bot::Step(World* pWorld, float dTime)
 	if (outputs[3] > 0.8 && !m_ShootCooldown)
 	{
 		Vector2D dir = GetLookDir();
-		Bullet* pBullet = new Bullet(m_Position + dir * 50, dir);
+		Bullet* pBullet = new Bullet(m_Position, dir);
 		pBullet->SetOwner(this);
 		pWorld->AddPhysObj(pBullet);
 		pWorld->AddDanger(pBullet);
@@ -102,9 +104,21 @@ void Bot::Draw(const Camera& camera, float dTime)
 	{
 		RGBColor color = m_Color;
 		color.a = 255 - m_ReflectAnim * 2.55;
-		DrawOutlineCircle(m_Position.x, m_Position.y, 50, color, camera);
+		DrawOutlinePartcircle(m_Position.x, m_Position.y, 50, M_PI / 3.0f, m_ViewAngle, 5.0f, color, camera);
 	}
 
+	if (m_pBrain->GetGeneration() > 0)
+	{
+		DrawFilledRectC(m_Position.x, m_Position.y - LEG_HEIGHT - BODY_SCALE / 2, 4, BODY_SCALE / 2, RGBColor(100, 100, 150), camera);
+		DrawOutlineCircle(m_Position.x, m_Position.y - LEG_HEIGHT - BODY_SCALE, 5, m_Color, camera);
+
+		for (int i = 1; i < m_pBrain->GetGeneration() / 1.0f; i++)
+		{
+			DrawOutlinePartcircle(m_Position.x, m_Position.y - LEG_HEIGHT - BODY_SCALE, 5 + i * 2, M_PI / 3.0f, -M_PI / 2.0f, 1.0f, m_Color, camera);
+		}
+	}
+
+	// Body
 	DrawFilledRectC(m_Position.x, m_Position.y - LEG_HEIGHT, BODY_SCALE, BODY_SCALE, RGBColor(100, 100, 150), camera);
 
 	// Eye
@@ -126,15 +140,15 @@ void Bot::Draw(const Camera& camera, float dTime)
 
 	// eye dir
 	offset = Vector2D(100, 0).GetRotated(m_ViewAngle);
-	DrawLineThink(
+	DrawLineThinkT(
 		m_Position.x + offset.x / 1.5,
 		m_Position.y - LEG_HEIGHT + offset.y / 1.5,
 		m_Position.x + offset.x,
-		m_Position.y - LEG_HEIGHT + offset.y, 2,
+		m_Position.y - LEG_HEIGHT + offset.y, 5, 0,
 		RGBColor(255, 255, 255), camera);
 }
 
-float Bot::GetAngleOffsetToNearestEnemy(World* pWorld, int& side)
+float Bot::GetAngleOffsetToNearestEnemy(World* pWorld, int& side, int& shoot)
 {
 	float dist = -1;
 	Bot* pBot = NULL;
@@ -144,8 +158,8 @@ float Bot::GetAngleOffsetToNearestEnemy(World* pWorld, int& side)
 		if (pB == this)
 			continue;
 
-		//if (pWorld->CheckLineForCollision(m_Position, pB->GetPosition()))
-		//	continue;
+		if (pWorld->CheckLineForCollision(m_Position, pB->GetPosition()))
+			continue;
 
 		if (dist == -1 || dist > m_Position.Distance(pB->GetPosition()))
 		{
@@ -165,9 +179,11 @@ float Bot::GetAngleOffsetToNearestEnemy(World* pWorld, int& side)
 	if (dist && ang > -M_PI * 0.5f && ang < M_PI * 0.5f)
 	{
 		side = ang > 0 ? 1 : -1;
+		shoot = (abs(ang) < (M_PI / 40.0f)) ? 1 : 0;
 
 		//if (ang > 0)
-		//	DrawLineThink(m_Position.x, m_Position.y, m_Position.x + dir.x, m_Position.y + dir.y, 1, RGBColor(0, 0, 255), g_Camera);
+		//if (shoot)
+			//DrawLineThink(m_Position.x, m_Position.y, m_Position.x + dir.x, m_Position.y + dir.y, 1, RGBColor(0, 0, 255), g_Camera);
 		//else
 		//	DrawLineThink(m_Position.x, m_Position.y, m_Position.x + dir.x, m_Position.y + dir.y, 1, RGBColor(255, 0, 0), g_Camera);
 	}
@@ -183,6 +199,10 @@ float Bot::GetAngleOffsetToNearestDanger(World* pWorld, int& side)
 
 	for (PhysObj* pD : pWorld->GetDangers())
 	{
+		if (Bullet* pBull = dynamic_cast<Bullet*>(pD))
+			if (pBull->GetOwner() == this)
+				continue;
+
 		if ((dist == -1 || dist > m_Position.Distance(pD->GetPosition()))
 			&& (pD->GetPosition() + pD->GetVelocity().GetNormalize() * fmin(250, pD->GetVelocity().Len() * 10)).Distance(m_Position) < 400)
 		{
@@ -194,9 +214,11 @@ float Bot::GetAngleOffsetToNearestDanger(World* pWorld, int& side)
 	if (!pDanger)
 		return false;
 
-	if (dist < 100)
+	if (dist < 150)
 	{
 		side = 1;
+
+		//DrawLineThink(m_Position.x, m_Position.y, pDanger->GetPosition().x, pDanger->GetPosition().y, 1, RGBColor(255, 0, 0), g_Camera);
 	}
 
 	return true;

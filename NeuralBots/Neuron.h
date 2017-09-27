@@ -6,9 +6,10 @@ class Neuron
 {
 public:
 	Neuron()
+		: m_Value(0)
 	{
 		// generating random value for bias
-		m_Bias = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		m_Bias = frand(-1, 1);
 	}
 
 	void SetBias(float bias) { m_Bias = bias; }

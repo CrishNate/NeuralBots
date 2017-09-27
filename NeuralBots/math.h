@@ -409,7 +409,7 @@ inline float GetRectDiagScale(float width, float height)
 	return sqrt(pow(width, 2) + pow(height, 2));
 }
 
-inline float GetDistanceToSphere(Vector2D startPos, Vector2D dir, Vector2D spherePos, float radius)
+inline float GetDistanceToSphere(const Vector2D& startPos, const Vector2D& dir, const Vector2D& spherePos, float radius)
 {
 	Vector2D vec = spherePos - startPos;
 	Vector2D vecN = vec.GetNormalize();

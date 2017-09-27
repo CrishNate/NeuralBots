@@ -21,19 +21,19 @@ public:
 		DrawFilledRectRC(m_Position.x, m_Position.y, 3, 2, m_Orient, RGBColor(100, 100, 100), camera);
 
 		// Trajectory
-		Vector2D vel = m_Velocity;
-		Vector2D point = m_Position;
-		std::vector<Vector2D> points = { m_Position };
+		//Vector2D vel = m_Velocity;
+		//Vector2D point = m_Position;
+		//std::vector<Vector2D> points = { m_Position };
 
-		for (int i = 0; i < 100; i++)
-		{
-			vel += gravity;
-			point += vel;
+		//for (int i = 0; i < 100; i++)
+		//{
+		//	vel += gravity;
+		//	point += vel;
 
-			points.push_back(point);
-		}
+		//	points.push_back(point);
+		//}
 
-		DrawLinesThinkT(points, 1, RGBColor(100, 0, 0), camera);
+		//DrawLinesThinkT(points, 1, RGBColor(100, 0, 0), camera);
 	}
 
 	void SetOwner(Bot* pBot) { m_pOwner = pBot; }

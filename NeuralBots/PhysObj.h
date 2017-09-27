@@ -45,7 +45,7 @@ public:
 
 	virtual void Draw(const Camera& camera, float dTime)
 	{ 
-		DrawFilledRectC(m_Position.x, m_Position.y, m_Width, m_Height, RGBColor(100, 100, 100), camera);
+		DrawFilledRectC(m_Position.x, m_Position.y, m_Width, m_Height, RGBColor(10, 10, 10), camera);
 	}
 
 	virtual void RunPhys(float dTime) 
