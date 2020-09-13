@@ -7,7 +7,7 @@
 #include <time.h>
 #include "Bot.h"
 
-#define FPS 60
+#define FPS 30
 
 // fields
 Vector2D g_GrabPos;
@@ -51,6 +51,9 @@ void run(GLFWwindow* pWindow)
 	// running
 	g_pMainWorld->Step();
 
+	// drawing graph
+	g_pMainWorld->DrawGraph(0, height - 300, 500, 300, 100);
+
 	if (g_pBot)
 	{
 		const std::vector<Bot*>& bots = g_pMainWorld->GetBots();
@@ -63,11 +66,10 @@ void run(GLFWwindow* pWindow)
 	{
 		DrawOutlineCircle(g_pBot->GetPosition().x, g_pBot->GetPosition().y, 40, RGBColor(255, 255, 255), g_Camera);
 
-		int panelW = 300;
-		int panelPadding = 20;
-		int panelScale = 20;
-
-		DrawFilledRect(0, 0, panelW, height, RGBColor(110, 130, 150));
+		int panelW = 100;
+		int panelH = 100;
+		int panelPadding = 30;
+		int panelScale = 10;
 
 		const std::vector<Bot*>& bots = g_pMainWorld->GetSavedBots();
 		const std::vector<Bot*>& abots = g_pMainWorld->GetBots();
@@ -77,21 +79,29 @@ void run(GLFWwindow* pWindow)
 			Bot* pBot = bots[i];
 
 			DrawFilledRect(width - panelW, i * (panelScale + 1), panelW, panelScale, RGBColor(150, 150, 150));
-			DrawFilledRect(width - panelW + 1, i * (panelScale + 1) + 1, panelScale - 2, panelScale - 2, pBot->GetColor());
+			DrawFilledRect(width - panelW + 1, i * (panelScale + 1) + 1, panelScale - 2, panelScale - 2, pBot->getColor());
 			float x = width - panelW + 1 + panelScale;
 			float y = i * (panelScale + 1) + 1;
 
-			DrawFilledRect(x, y, pBot->GetBrain()->GetFitness() * 5, panelScale - 2, RGBColor(255, 255, 255));
+			if(pBot->getBrain()->getFitness() > 0)
+				DrawFilledRect(x, y, pBot->getBrain()->getFitness() * 5, panelScale - 2, RGBColor(255, 255, 255));
+			else
+				DrawFilledRect(x, y, -pBot->getBrain()->getFitness() * 5, panelScale - 2, RGBColor(255, 0, 0));
 
-			Vector2D p = CameraToWorld(x, y, g_Camera);
+			Vector2D p = CameraToWorld(x - panelScale, y + panelScale / 2, g_Camera);
 			for (int j = 0; j < abots.size(); j++)
 				if (abots[j] == pBot)
-					DrawLineThink(pBot->GetPosition().x, pBot->GetPosition().y, p.x, p.y, 1, pBot->GetColor(), g_Camera);
+					DrawLineThink(pBot->GetPosition().x, pBot->GetPosition().y, p.x, p.y, 0.5f, pBot->getColor(), g_Camera);
 		}
 
+		
+		panelW = 500;
+		panelH = 300;
+		DrawFilledRect(0, 0, panelW, panelH, RGBColor(110, 130, 150));
+
 		// Drawing brain
-		NeuralNetwork* pBrain = g_pBot->GetBrain();
-		pBrain->Draw(150, height - pBrain->GetDrawHeight() / 2);
+		nn::NeuralNetwork* pBrain = g_pBot->getBrain();
+		pBrain->draw(panelW / 2.0f, panelH / 2.0f, 10, 50, 15);
 	}
 
 	glfwSwapBuffers(pWindow);
@@ -107,6 +117,14 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
+
+	if (key == GLFW_KEY_R && action == GLFW_PRESS)
+	{
+		for each (auto var in g_pMainWorld->GetBots())
+		{
+			g_pMainWorld->Remove(var);
+		}
+	}
 }
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
@@ -160,7 +178,7 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
 {
 	if (g_Grabbed)
 	{
-		Vector2D mousePos = Vector2D(xpos, ypos);
+		Vector2D mousePos(xpos, ypos);
 		Vector2D dir = (mousePos - g_GrabPos);
 		g_Camera.center.x -= dir.x / g_Camera.zoom;
 		g_Camera.center.y -= dir.y / g_Camera.zoom;
@@ -213,6 +231,7 @@ int main(void)
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 	glfwSetCursorPosCallback(window, cursor_position_callback);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); glEnable(GL_BLEND);
 
 	// Draw Loading screen background
 	glClearColor(0, 0, 0, 1.0f);
@@ -220,7 +239,6 @@ int main(void)
 	//DrawTextQL("Loading", 1280 / 2.0f, 720 / 2.0f, 0, RGBColor(255, 255, 255));
 	glfwSwapBuffers(window);
 	glfwPollEvents();
-
 	// Creating World
 	g_pMainWorld = new World();
 
@@ -230,7 +248,6 @@ int main(void)
 		if (clock() > g_LastTime)
 		{
 			g_LastTime = clock() + 1000 / FPS;
-
 			run(window);
 		}
 	}

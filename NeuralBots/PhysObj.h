@@ -45,17 +45,18 @@ public:
 
 	virtual void Draw(const Camera& camera, float dTime)
 	{ 
-		DrawFilledRectC(m_Position.x, m_Position.y, m_Width, m_Height, RGBColor(10, 10, 10), camera);
+		DrawFilledRectC(m_Position.x, m_Position.y, m_Width + 6, m_Height + 6, RGBColor(10, 10, 10), camera);
 	}
 
 	virtual void RunPhys(float dTime) 
 	{
+		dTime /= 100.0f;
 		if (m_Static)
 			return;
 
-		m_Velocity += gravity * dTime / 100.0f;
-		m_Position += m_Velocity * dTime / 100.0f;
-		m_Orient += m_AngularVelocity * dTime / 100.0f;
+		m_Velocity += gravity * dTime;
+		m_Position += m_Velocity * dTime;
+		m_Orient += m_AngularVelocity * dTime;
 	}
 
 	virtual	void Remove()

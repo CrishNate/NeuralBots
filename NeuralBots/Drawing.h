@@ -42,6 +42,7 @@ static Vector2D CameraToWorld(float x, float y, const Camera& camera)
 	return Vector2D(x, y);
 }
 
+
 static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, RGBColor color, const Camera& camera)
 {
 	x1 = (x1 - camera.pos.x) * camera.zoom;
@@ -217,10 +218,11 @@ static void DrawFilledRectRC(int x, int y, float w, float h, float angle, RGBCol
 	glEnd();
 }
 
+
 static void DrawLineThink(float x1, float y1, float x2, float y2, float thick, RGBColor color)
 {
 	glLineWidth(thick);
-	glColor3f(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+	glColor4f(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
 	glBegin(GL_LINES);
 	glVertex2f(x1, y1);
 	glVertex2f(x2, y2);

@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Neural Network">
-      <UniqueIdentifier>{61eb7c7c-9c8d-4fe5-b696-ab0e2969bb97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Physics">
       <UniqueIdentifier>{992b7f5f-26e1-47fa-a516-fe47d819f5f9}</UniqueIdentifier>
     </Filter>
@@ -27,6 +24,12 @@
     </Filter>
     <Filter Include="Source Files\Bot">
       <UniqueIdentifier>{37e53a74-36b9-4e96-8dbd-3c351c092cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NeuralNetwork">
+      <UniqueIdentifier>{7e5e85ce-9431-4bad-bb21-e19d7852fb1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\NerualNetwork">
+      <UniqueIdentifier>{7ad79b7d-cd1d-44f6-a680-6116ca1ce4ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +45,15 @@
     <ClCompile Include="Bot.cpp">
       <Filter>Source Files\Bot</Filter>
     </ClCompile>
+    <ClCompile Include="NeuralNetwork\Dendrite.cpp">
+      <Filter>Source Files\NeuralNetwork</Filter>
+    </ClCompile>
+    <ClCompile Include="NeuralNetwork\NeuralNetwork.cpp">
+      <Filter>Source Files\NeuralNetwork</Filter>
+    </ClCompile>
+    <ClCompile Include="NeuralNetwork\Neuron.cpp">
+      <Filter>Source Files\NeuralNetwork</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h">
@@ -52,15 +64,6 @@
     </ClInclude>
     <ClInclude Include="math.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Neuron.h">
-      <Filter>Header Files\Neural Network</Filter>
-    </ClInclude>
-    <ClInclude Include="NeuralNetwork.h">
-      <Filter>Header Files\Neural Network</Filter>
-    </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Header Files\Neural Network</Filter>
     </ClInclude>
     <ClInclude Include="PhysObj.h">
       <Filter>Header Files\Physics</Filter>
@@ -74,11 +77,20 @@
     <ClInclude Include="Bot.h">
       <Filter>Header Files\Bot</Filter>
     </ClInclude>
-    <ClInclude Include="Dendrite.h">
-      <Filter>Header Files\Neural Network</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\Bot</Filter>
+    </ClInclude>
+    <ClInclude Include="NeuralNetwork\Include\Dendrite.h">
+      <Filter>Header Files\NerualNetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="NeuralNetwork\Include\math.h">
+      <Filter>Header Files\NerualNetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="NeuralNetwork\Include\NeuralNetwork.h">
+      <Filter>Header Files\NerualNetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="NeuralNetwork\Include\Neuron.h">
+      <Filter>Header Files\NerualNetwork</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

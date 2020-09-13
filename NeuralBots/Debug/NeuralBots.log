@@ -1,111 +1,78 @@
-﻿Build started 9/27/2017 6:28:21 PM.
-     1>Project "A:\Projects\C++\NeuralBots\NeuralBots\NeuralBots.vcxproj" on node 2 (Build target(s)).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (NeuralCells.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-     1>ClCompile:
-         A:\Programs\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Bot.cpp
-         Bot.cpp
-     1>a:\projects\c++\neuralbots\neuralbots\math.h(368): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\math.h(374): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(68): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(84): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(86): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(103): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(105): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(109): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(110): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(125): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(134): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(135): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(148): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(149): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(151): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(158): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(159): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(165): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(166): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(168): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(177): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(178): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(182): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(183): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(185): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(196): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(197): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(202): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(203): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(204): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(205): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(305): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(342): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\drawing.h(385): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\physobj.h(48): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(39): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(98): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(121): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(135): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(166): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(274): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(281): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(285): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(286): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(290): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(293): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(294): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(298): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(299): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(302): warning C4305: '+=' : truncation from 'double' to 'float'
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(303): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(309): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(310): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(316): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(323): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(327): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(328): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\neuralnetwork.h(422): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bullet.h(20): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bullet.h(21): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.h(30): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.h(51): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\world.h(74): warning C4018: '<' : signed/unsigned mismatch
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(25): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(26): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(27): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(28): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(29): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(34): warning C4305: '-=' : truncation from 'double' to 'float'
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(35): warning C4305: '+=' : truncation from 'double' to 'float'
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(71): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(82): warning C4244: '-=' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(85): warning C4244: '-=' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(99): warning C4305: '-=' : truncation from 'double' to 'float'
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(100): warning C4305: '+=' : truncation from 'double' to 'float'
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(106): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(107): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(107): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(112): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(113): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(117): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(117): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(117): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(122): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(126): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(127): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(130): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(131): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(133): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(134): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(138): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(139): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(148): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>a:\projects\c++\neuralbots\neuralbots\bot.cpp(207): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-       Link:
-         A:\Programs\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"A:\Projects\C++\NeuralBots\Debug\NeuralBots.exe" /INCREMENTAL /NOLOGO glfw3.lib glfw3dll.lib freeglut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"A:\Projects\C++\NeuralBots\Debug\NeuralBots.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"A:\Projects\C++\NeuralBots\Debug\NeuralBots.lib" /MACHINE:X86 Debug\Bot.obj
-         Debug\noise.obj
-         Debug\main.obj
-         Debug\World.obj
-         NeuralBots.vcxproj -> A:\Projects\C++\NeuralBots\Debug\NeuralBots.exe
-     1>Done Building Project "A:\Projects\C++\NeuralBots\NeuralBots\NeuralBots.vcxproj" (Build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:00.98
+﻿  NeuralNetwork.cpp
+D:\Projects\C++\NeuralBots\NeuralBots\math.h(368,17): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\math.h(374,18): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(69,58): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(85,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(85,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(87,58): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(104,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(104,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(106,58): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(110,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(111,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(126,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(126,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(135,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(136,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(149,16): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(149,13): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(150,20): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(152,13): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(159,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(160,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(166,16): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(166,13): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(167,20): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(169,13): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(178,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(179,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(183,16): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(183,13): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(184,20): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(186,13): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(197,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(198,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(203,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(203,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(204,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(204,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(205,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(205,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(206,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(206,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(307,20): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(344,20): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\C++\NeuralBots\NeuralBots\Drawing.h(387,20): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(11,21): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(37,2): warning C4267: 'initializing': conversion from 'size_t' to 'uint16_t', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(200,19): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(231,22): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(233,12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(234,12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(239,24): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(241,20): warning C4244: 'initializing': conversion from 'eT' to 'float', possible loss of data
+          with
+          [
+              eT=double
+          ]
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(242,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(243,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(247,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(248,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(251,39): warning C4305: '+=': truncation from 'double' to 'float'
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(252,34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(258,53): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(258,21): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(256,12): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(256,8): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(255,12): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(255,8): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(270,22): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(272,12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(273,12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Projects\C++\NeuralBots\NeuralBots\NeuralNetwork\NeuralNetwork.cpp(274,17): warning C4244: 'initializing': conversion from 'eT' to 'float', possible loss of data
+          with
+          [
+              eT=double
+          ]
+  NeuralBots.vcxproj -> D:\Projects\C++\NeuralBots\Debug\NeuralBots.exe

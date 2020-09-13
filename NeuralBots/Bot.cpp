@@ -1,154 +1,122 @@
 #include "Bot.h"
 #include "World.h"
+#include "Bullet.h"
+
+#define BODY_SCALE 30
+#define EYE_SCALE 5
+#define BOT_VISION_LENGTH 1000
 
 extern Camera g_Camera;
 
-void Bot::Step(World* pWorld, float dTime)
+void Bot::Shoot(World* pWorld)
 {
-	std::vector<float> inputs = {
-		frand(1, -1),
-		1,
-		-1,
-		static_cast<float>(cos(clock() / 400.0f)),
-		static_cast<float>(sin(clock() / 600.0f))
-	};
-
-	int sideE = 0;
-	int	sideD = 0;
-	int shoot = 0;
-	GetAngleOffsetToNearestEnemy(pWorld, sideE, shoot);
-	GetAngleOffsetToNearestDanger(pWorld, sideD);
-
-	int hitR = pWorld->CheckPointForSolid(m_Position + Vector2D(m_Width / 2 + 2, 0)) ? 1 : 0;
-	int hitL = pWorld->CheckPointForSolid(m_Position - Vector2D(m_Width / 2 + 2, 0)) ? 1 : 0;
-
-	inputs.push_back(sideE);
-	inputs.push_back(sideD);
-	inputs.push_back(hitR);
-	inputs.push_back(hitL);
-	inputs.push_back(shoot);
-
-	std::vector<float> outputs = m_pBrain->Run(inputs);
-
-	m_ViewAngle += outputs[1] / 10.0f * dTime / 10.0f;
-	if (m_ViewAngle > M_2PI) { m_ViewAngle -= M_2PI; }
-	if (m_ViewAngle < -M_2PI) { m_ViewAngle += M_2PI; }
-
-	ApplyForce(Vector2D(outputs[0] * dTime / 100.0f, 0));
-
-	// Jump
-	if (outputs[2] > 0.9)
+	if (!m_ShootCooldown > 0)
 	{
-		if (hitR)
-			SetVelocity(Vector2D(-40, -70));
-		else if (hitL)
-			SetVelocity(Vector2D(40, -70));
-		else if (pWorld->CheckPointForSolid(m_Position + Vector2D(0, m_Height / 2 + 2)))
-			ApplyForce(Vector2D(0, -70));
-	}
-
-	// Shooting
-	if (outputs[3] > 0.8 && !m_ShootCooldown)
-	{
-		Vector2D dir = GetLookDir();
-		Bullet* pBullet = new Bullet(m_Position, dir);
-		pBullet->SetOwner(this);
-		pWorld->AddPhysObj(pBullet);
-		pWorld->AddDanger(pBullet);
-
-		m_ShootCooldown = 100;
-	}
-
-	// Reflection
-	if (outputs[4] > 0.8 && !m_ReflectionCooldown)
-	{
-		for (PhysObj* pObj : pWorld->GetDangers())
+		PhysObj* obj = nullptr;
+		if (pWorld->CheckLineForCollision(m_Position, m_Position + Vector2D(0, getShootLength()).GetRotated(m_ViewAngle), false, &obj, this))
 		{
-			Vector2D refl = pObj->GetPosition() - m_Position;
-			if (refl.Len() < 100)
+			if (Bot* bot = dynamic_cast<Bot*>(obj))
 			{
-				refl.Normalize();
-				refl *= fmax(100, pObj->GetVelocity().Len());
-
-				pObj->SetVelocity(refl);
+				getBrain()->addFitness(1); // add points for kill
+				bot->respawn(pWorld);
 			}
 		}
-
-		m_ReflectAnim = 20;
-		m_ReflectionCooldown = 100;
+		
+		
+		m_ShootCooldown = getShootCooldown();
 	}
+}
 
-	// Countdown
-	if (m_ShootCooldown > 0) m_ShootCooldown -= dTime / 10.0f;
-	else m_ShootCooldown = 0;
-
-	if (m_ReflectionCooldown > 0) m_ReflectionCooldown -= dTime / 10.0f;
-	else m_ReflectionCooldown = 0;
-
-	if (m_ReflectAnim > 0)
+void Bot::respawn(World* pWorld)
+{
+	Vector2D pos;
+	do
 	{
-		m_ReflectAnim += dTime / 1.0f;
-		if (m_ReflectAnim > 100)
-			m_ReflectAnim = 0;
+		pos = Vector2D((0.5 + frand(-0.5, 0.5)) * WORLD_SIZE_X, (0.5 + frand(-0.5, 0.5)) * WORLD_SIZE_Y);
 	}
+	while (pWorld->CheckPointForSolid(pos));
+	SetPosition(pos);
+	getBrain()->addFitness(-0.25); // remove fitness per death
+	
+	m_ShootCooldown = 0;
+}
+
+void Bot::Step(World* pWorld, float dTime)
+{
+	float side = 0;
+	float sideEnemy = 0;
+	float dist = 0;
+	GetAngleOffsetToNearestEnemy(pWorld, side, dist, sideEnemy);
+	m_Inputs[0] = side;
+	m_Inputs[1] = dist;
+	m_Inputs[2] = sideEnemy;
+
+	m_Inputs[3] = m_ShootCooldown > 0 ? 0.0f : 1.0f;
+
+	arma::mat inputsMat = arma::mat(m_Inputs);
+
+	m_pBrain->query(inputsMat);
+	m_Velocity = getLookDir() * m_pBrain->result()[0] * dTime + getRight() * m_pBrain->result()[1] * dTime;
+	m_ViewAngle += m_pBrain->result()[2] * dTime / 100.0f;
+
+	if (m_pBrain->result()[3] > 0.5f)
+		Shoot(pWorld);
+
+	if (m_ShootCooldown > 0.0f)
+		m_ShootCooldown -= dTime / 10.0f;
+	else
+		m_ShootCooldown = 0.0f;
+}
+
+void Bot::Remove()
+{
+	PhysObj::Remove();
+}
+
+double Bot::getShootLength()
+{
+	return m_pGenome->getGenome()[0] * 2000;
+}
+
+double Bot::getShootCooldown()
+{
+	return m_pGenome->getGenome()[0] * 200;
 }
 
 void Bot::Draw(const Camera& camera, float dTime)
 {
-	m_Anim += dTime * m_Velocity.x / 50.0f * dTime;
-	if (m_Anim > M_2PI) m_Anim -= M_2PI;
-	if (m_Anim < -M_2PI) m_Anim += M_2PI;
-
-	// Shield
-	if (m_ReflectAnim)
-	{
-		RGBColor color = m_Color;
-		color.a = 255 - m_ReflectAnim * 2.55;
-		DrawOutlinePartcircle(m_Position.x, m_Position.y, 50, M_PI / 3.0f, m_ViewAngle, 5.0f, color, camera);
-	}
-
-	if (m_pBrain->GetGeneration() > 0)
-	{
-		DrawFilledRectC(m_Position.x, m_Position.y - LEG_HEIGHT - BODY_SCALE / 2, 4, BODY_SCALE / 2, RGBColor(100, 100, 150), camera);
-		DrawOutlineCircle(m_Position.x, m_Position.y - LEG_HEIGHT - BODY_SCALE, 5, m_Color, camera);
-
-		for (int i = 1; i < m_pBrain->GetGeneration() / 1.0f; i++)
-		{
-			DrawOutlinePartcircle(m_Position.x, m_Position.y - LEG_HEIGHT - BODY_SCALE, 5 + i * 2, M_PI / 3.0f, -M_PI / 2.0f, 1.0f, m_Color, camera);
-		}
-	}
-
 	// Body
-	DrawFilledRectC(m_Position.x, m_Position.y - LEG_HEIGHT, BODY_SCALE, BODY_SCALE, RGBColor(100, 100, 150), camera);
+	DrawFilledRectRC(m_Position.x, m_Position.y, BODY_SCALE, BODY_SCALE, m_ViewAngle, RGBColor(100, 100, 150), camera);
 
 	// Eye
-	Vector2D offset = Vector2D(10, 0).GetRotated(m_ViewAngle);
-	DrawFilledRectC(m_Position.x + offset.x, m_Position.y - LEG_HEIGHT - 5, 1.5f * EYE_SCALE + 5, EYE_SCALE + 5, RGBColor(100, 100, 150) / 2, camera);
-	DrawFilledRectC(m_Position.x + offset.x, m_Position.y - LEG_HEIGHT - 5, 1.5f * EYE_SCALE, EYE_SCALE, m_Color, camera);
-
-	// Foots
-	Vector2D offsetL = Vector2D(-cos(m_Anim) * 10 * m_Side, -fmax(0, sin(m_Anim) * 5)) * fmin(1, abs(m_Velocity.x / 5.0f));
-	Vector2D offsetR = Vector2D(cos(m_Anim) * 10 * m_Side, -fmax(0, -sin(m_Anim) * 5)) * fmin(1, abs(m_Velocity.x / 5.0f));
-
-	DrawFilledRectC(m_Position.x + offsetL.x, m_Position.y + BODY_SCALE / 2 + LEG_HEIGHT + offsetL.y, 1.5f * FOOT_WIDTH, 6, RGBColor(80, 80, 120), camera);
-	DrawFilledRectC(m_Position.x + offsetR.x, m_Position.y + BODY_SCALE / 2 + LEG_HEIGHT + offsetR.y, 1.5f * FOOT_WIDTH, 6, RGBColor(80, 80, 120), camera);
-
-	// Hand
-	Vector2D handpos = Vector2D(25, 0).GetRotated(m_ViewAngle);
-	DrawFilledRectC(m_Position.x + handpos.x, m_Position.y + handpos.y, HAND_SCALE, HAND_SCALE, RGBColor(80, 80, 120), camera);
-	DrawFilledRectC(m_Position.x + handpos.x, m_Position.y + handpos.y, HAND_SCALE / 4.0f, HAND_SCALE / 4.0f, m_Color, camera);
+	Vector2D p1 = m_Position + Vector2D(7.0f, (BODY_SCALE - EYE_SCALE) / 2.0f).GetRotated(m_ViewAngle);
+	Vector2D p2 = m_Position + Vector2D(-7.0f, (BODY_SCALE - EYE_SCALE) / 2.0f).GetRotated(m_ViewAngle);
+	DrawFilledRectRC(p1.x, p1.y, 1.5f * EYE_SCALE, EYE_SCALE, m_ViewAngle, m_Color, camera);
+	DrawFilledRectRC(p2.x, p2.y, 1.5f * EYE_SCALE, EYE_SCALE, m_ViewAngle, m_Color, camera);
 
 	// eye dir
-	offset = Vector2D(100, 0).GetRotated(m_ViewAngle);
+	Vector2D offset = Vector2D(0, 100).GetRotated(m_ViewAngle);
 	DrawLineThinkT(
 		m_Position.x + offset.x / 1.5,
-		m_Position.y - LEG_HEIGHT + offset.y / 1.5,
+		m_Position.y + offset.y / 1.5,
 		m_Position.x + offset.x,
-		m_Position.y - LEG_HEIGHT + offset.y, 5, 0,
+		m_Position.y + offset.y, 5, 0,
 		RGBColor(255, 255, 255), camera);
+
+	if (m_ShootCooldown > getShootCooldown() - 5.0f)
+	{
+		Vector2D dir = Vector2D(0, getShootLength()).GetRotated(m_ViewAngle);
+		DrawLineThinkT(
+        m_Position.x,
+        m_Position.y,
+        m_Position.x + dir.x,
+        m_Position.y + dir.y, 3,
+        RGBColor(255, 0, 0), camera);
+	}
 }
 
-float Bot::GetAngleOffsetToNearestEnemy(World* pWorld, int& side, int& shoot)
+
+float Bot::GetAngleOffsetToNearestEnemy(World* pWorld, float& side, float& distT, float& enemyVision)
 {
 	float dist = -1;
 	Bot* pBot = NULL;
@@ -158,41 +126,41 @@ float Bot::GetAngleOffsetToNearestEnemy(World* pWorld, int& side, int& shoot)
 		if (pB == this)
 			continue;
 
-		if (pWorld->CheckLineForCollision(m_Position, pB->GetPosition()))
+		if (pWorld->CheckLineForCollision(m_Position, pB->GetPosition(), true))
 			continue;
 
-		if (dist == -1 || dist > m_Position.Distance(pB->GetPosition()))
+		Vector2D dirF = getLookDir();
+		Vector2D dir = (pB->GetPosition() - m_Position);
+		float ang1 = atan2(dirF.y, dirF.x);
+		float ang = ang1 - atan2(dir.y, dir.x);
+
+		if (ang > -M_PI2 && ang < M_PI2 
+			&& (dist < 0 || dist > m_Position.Distance(pB->GetPosition()))
+			&& m_Position.Distance(pB->GetPosition()) < BOT_VISION_LENGTH)
 		{
 			dist = m_Position.Distance(pB->GetPosition());
+			distT = dist / BOT_VISION_LENGTH;
+			side = ang;
 			pBot = pB;
 		}
 	}
 
 	if (!pBot)
-		return false;
-
-	Vector2D dirF = Vector2D(1, 0).GetRotated(m_ViewAngle);
-	Vector2D dir = (pBot->GetPosition() - m_Position);
-	float ang1 = atan2(dirF.y, dirF.x);
-	float ang = ang1 - atan2(dir.y, dir.x);
-
-	if (dist && ang > -M_PI * 0.5f && ang < M_PI * 0.5f)
 	{
-		side = ang > 0 ? 1 : -1;
-		shoot = (abs(ang) < (M_PI / 40.0f)) ? 1 : 0;
-
-		//if (ang > 0)
-		//if (shoot)
-			//DrawLineThink(m_Position.x, m_Position.y, m_Position.x + dir.x, m_Position.y + dir.y, 1, RGBColor(0, 0, 255), g_Camera);
-		//else
-		//	DrawLineThink(m_Position.x, m_Position.y, m_Position.x + dir.x, m_Position.y + dir.y, 1, RGBColor(255, 0, 0), g_Camera);
+		dist = 0;
+		return false;
 	}
+
+	Vector2D dirF = pBot->getLookDir();
+	Vector2D dir = (m_Position - pBot->GetPosition());
+	float ang = atan2(dirF.y, dirF.x);
+	enemyVision = ang <= M_PI2 ? (ang - atan2(dir.y, dir.x)) / M_PI2 : 0.0f;
 
 	return true;
 }
 
 
-float Bot::GetAngleOffsetToNearestDanger(World* pWorld, int& side)
+float Bot::GetAngleOffsetToNearestDanger(World* pWorld, float& side)
 {
 	float dist = -1;
 	PhysObj* pDanger = NULL;
@@ -203,22 +171,25 @@ float Bot::GetAngleOffsetToNearestDanger(World* pWorld, int& side)
 			if (pBull->GetOwner() == this)
 				continue;
 
-		if ((dist == -1 || dist > m_Position.Distance(pD->GetPosition()))
+		Vector2D dirF = getLookDir();
+		Vector2D dir = (pD->GetPosition() - m_Position);
+		float ang1 = atan2(dirF.y, dirF.x);
+		float ang = ang1 - atan2(dir.y, dir.x);
+
+		if (ang > -M_PI2 && ang < M_PI2 
+			&& (dist < 0 || dist > m_Position.Distance(pD->GetPosition()) && dist < 150)
 			&& (pD->GetPosition() + pD->GetVelocity().GetNormalize() * fmin(250, pD->GetVelocity().Len() * 10)).Distance(m_Position) < 400)
 		{
+			side = ang / M_PI2;
 			dist = m_Position.Distance(pD->GetPosition());
 			pDanger = pD;
 		}
 	}
 
 	if (!pDanger)
-		return false;
-
-	if (dist < 150)
 	{
-		side = 1;
-
-		//DrawLineThink(m_Position.x, m_Position.y, pDanger->GetPosition().x, pDanger->GetPosition().y, 1, RGBColor(255, 0, 0), g_Camera);
+		dist = 0;
+		return false;
 	}
 
 	return true;

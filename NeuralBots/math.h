@@ -293,12 +293,12 @@ struct Mat2
 
 inline Vector2D Min(const Vector2D& a, const Vector2D& b)
 {
-	return Vector2D(std::min(a.x, b.x), std::min(a.y, b.y));
+	return Vector2D(std::fmin(a.x, b.x), std::fmin(a.y, b.y));
 }
 
 inline Vector2D Max(const Vector2D& a, const Vector2D& b)
 {
-	return Vector2D(std::max(a.x, b.x), std::max(a.y, b.y));
+	return Vector2D(std::fmax(a.x, b.x), std::fmax(a.y, b.y));
 }
 
 inline float DotProduct(const Vector2D& a, const Vector2D& b)
@@ -430,14 +430,18 @@ inline float GetDistanceToSphere(const Vector2D& startPos, const Vector2D& dir, 
 	return Dist(startPos, point1);
 }
 
-
 inline float frand(float start, float end)
 {
 	return start + (static_cast <float> (rand()) / static_cast <float> (RAND_MAX)) * (end - start);
 }
 
+inline double drand(double start, double end)
+{
+	return start + (static_cast <double> (rand()) / static_cast <double> (RAND_MAX)) * (end - start);
+}
+
 // Gravity
-const float gravityScale = 1.0f;
+const float gravityScale = 0.0f;
 const Vector2D gravity(0, 10.0f * gravityScale);
 // Itterations per second
 const float dt = 1.0f / 60.0f;
